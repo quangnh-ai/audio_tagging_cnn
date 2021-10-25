@@ -35,19 +35,25 @@ if __name__ == '__main__':
     fmax = int(my_cfg['model']['fmax'])
     classes_num = int(my_cfg['model']['classes_num'])
 
+    print('(+) Init Model')
+
     model = Cnn14(sample_rate=sample_rate, window_size=window_size, hop_size=hop_size,
                   mel_bins=mel_bins, fmin=fmin, fmax=fmax, classes_num=classes_num)
 
+    print('(+) Get classes list')
     classes_path = my_cfg['data']['classes_path']
 
     ids, labels = get_classes_list(classes_path)
 
     checkpoint_path = args.checkpoint_path
+    print('(+) Load checkpoint')
     checkpoint = torch.load(checkpoint_path)
     model.load_state_dict(checkpoint['model'])
     model.to('cuda')
+    print('(+) GPU number: {}'.format(torch.cuda.device_count()))
     model = torch.nn.DataParallel(model)
 
+    print('(+) Audio Tagging')
     audio_path = args.audio_path
     (waveform, _) = librosa.core.load(audio_path, sr=sample_rate, mono=True)
     waveform = waveform[None, :]
