@@ -9,6 +9,7 @@ import csv
 
 from utils.model import Cnn14
 from utils.data import move_data_to_device, get_classes_list
+from utils.tools import audio_tagging
 
 from configs.config import init_config
 
@@ -55,19 +56,7 @@ if __name__ == '__main__':
 
     print('(+) Audio Tagging')
     audio_path = args.audio_path
-    (waveform, _) = librosa.core.load(audio_path, sr=sample_rate, mono=True)
-    waveform = waveform[None, :]
-    waveform = move_data_to_device(waveform, 'cuda')
-
-    with torch.no_grad():
-        model.eval()
-        batch_output_dict = model(waveform, None)
-    
-    clipwise_output = batch_output_dict['clipwise_output'].data.cpu().numpy()[0]
-    sorted_indexes = np.argsort(clipwise_output)[::-1]
-
-    for k in range(20):
-        print('{}: {:.3f}'.format(np.array(labels)[sorted_indexes[k]], 
-            clipwise_output[sorted_indexes[k]]))
+    result = audio_tagging(model, audio_path, labels, sample_rate=sample_rate)
+    print(result)
 
     
