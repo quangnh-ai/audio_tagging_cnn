@@ -4,7 +4,7 @@ import librosa
 import torch
 import csv
 
-from data import move_data_to_device
+from utils.data import move_data_to_device
 
 def audio_tagging(model, audio_path, labels, sample_rate=32000):
     (waveform, _) = librosa.core.load(audio_path, sr=sample_rate, mono=True)
