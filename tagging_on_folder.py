@@ -59,4 +59,7 @@ if __name__ == '__main__':
     audio_folder = args.audio_folder
 
     shot_ids, results = tagging_on_folder(model, audio_folder, labels)
-    print(shot_ids, results)
+    print(shot_ids)
+    print(len(shot_ids))
+    print(results)
+    print(len(results))
