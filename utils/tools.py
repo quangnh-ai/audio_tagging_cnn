@@ -21,7 +21,11 @@ def audio_tagging(model, audio_path, labels, sample_rate=32000):
     result = ""
     for i in sorted_indexes:
         if clipwise_output[i] >= 0.08:
-            result = result + labels[i].lower() + " "
+            result = result + labels[i] + " "
     
     return result
     
+def tagging_on_folder(model, data_path):
+    audio_list = os.listdir(data_path)
+    results = []
+    shot_id = []
