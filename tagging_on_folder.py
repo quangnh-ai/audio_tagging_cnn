@@ -10,7 +10,7 @@ import h5py
 
 from utils.model import Cnn14
 from utils.data import move_data_to_device, get_classes_list
-from utils.tools import audio_tagging
+from utils.tools import audio_tagging, tagging_on_folder
 
 from configs.config import init_config
 
@@ -20,7 +20,7 @@ def get_arg():
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--checkpoint_path', type=str, required=True)
-    parser.add_argument('--audio_path', type=str, required=True)
+    parser.add_argument('--audio_folder', type=str, required=True)
 
     args = parser.parse_args()
     return args
@@ -40,7 +40,7 @@ if __name__ == '__main__':
     print('(+) Init Model')
 
     model = Cnn14(sample_rate=sample_rate, window_size=window_size, hop_size=hop_size,
-                  mel_bins=mel_bins, fmin=fmin, fmax=fmax, classes_num=classes_num)
+                mel_bins=mel_bins, fmin=fmin, fmax=fmax, classes_num=classes_num)
 
     print('(+) Get classes list')
     classes_path = my_cfg['data']['classes_path']
@@ -50,14 +50,13 @@ if __name__ == '__main__':
     checkpoint_path = args.checkpoint_path
     print('(+) Load checkpoint')
     checkpoint = torch.load(checkpoint_path)
+    
     model.load_state_dict(checkpoint['model'])
     model.to('cuda')
     print('(+) GPU number: {}'.format(torch.cuda.device_count()))
     model = torch.nn.DataParallel(model)
 
-    print('(+) Audio Tagging')
-    audio_path = args.audio_path
-    result = audio_tagging(model, audio_path, labels, sample_rate=sample_rate)
-    print(result)
+    audio_folder = args.audio_folder
 
-    
+    shot_ids, results = tagging_on_folder(model, audio_folder, labels)
+    print(shot_ids, results)
