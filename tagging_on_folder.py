@@ -21,6 +21,7 @@ def get_arg():
 
     parser.add_argument('--checkpoint_path', type=str, required=True)
     parser.add_argument('--audio_folder', type=str, required=True)
+    parser.add_argument('--save_path', type=str, required=True)
 
     args = parser.parse_args()
     return args
@@ -59,7 +60,11 @@ if __name__ == '__main__':
     audio_folder = args.audio_folder
 
     shot_ids, results = tagging_on_folder(model, audio_folder, labels)
-    print(shot_ids)
-    print(len(shot_ids))
-    print(results)
-    print(len(results))
+
+    save_path = args.save_path
+
+    data = h5py.File(save_path, 'w')
+    data.create_dataset('shot_ids', data=shot_ids)
+    data.create_dataset('features', data=results)
+    data.close()
+    
