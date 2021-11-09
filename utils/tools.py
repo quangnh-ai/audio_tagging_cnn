@@ -46,7 +46,7 @@ def tagging_on_folder(model, data_path, labels):
             audio_shot_path = os.path.join(audio_path, audio_shot)
             try:
                 (waveform, _) = librosa.core.load(audio_shot_path, sr=32000, mono=True)
-            except RuntimeError:
+            except Exception as e:
                 continue
             waveform = waveform[None, :]
             waveform = move_data_to_device(waveform, 'cuda')
@@ -55,7 +55,7 @@ def tagging_on_folder(model, data_path, labels):
                 model.eval()
                 try:
                     batch_output_dict = model(waveform, None)
-                except RuntimeError:
+                except Exception as e:
                     continue
             
             clipwise_output = batch_output_dict['clipwise_output'].data.cpu().numpy()[0]
