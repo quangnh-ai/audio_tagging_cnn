@@ -68,6 +68,7 @@ def tagging_on_folder(model, data_path, labels):
                 shot_ids.append(audio_shot.split('.')[0])
 
         count += 1
+        print("(+) Tagging on video:", audio)
         print("(+) Process: ", 100 * count/audio_count , '%')
     
     return shot_ids, results
