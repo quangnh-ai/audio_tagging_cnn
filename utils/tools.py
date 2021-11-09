@@ -42,6 +42,7 @@ def tagging_on_folder(model, data_path, labels):
         audio_shots = sorted(audio_shots)
 
         for audio_shot in audio_shots:
+            print("(+) Tagging on shot:", audio_shot)
             audio_shot_path = os.path.join(audio_path, audio_shot)
             (waveform, _) = librosa.core.load(audio_shot_path, sr=32000, mono=True)
             waveform = waveform[None, :]
