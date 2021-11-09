@@ -63,8 +63,10 @@ if __name__ == '__main__':
 
     save_path = args.save_path
 
+    print("(+) Saving results")
     data = h5py.File(save_path, 'w')
     data.create_dataset('shot_ids', data=shot_ids)
     data.create_dataset('features', data=results)
     data.close()
+    print("(+) Finished")
     

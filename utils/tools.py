@@ -44,7 +44,10 @@ def tagging_on_folder(model, data_path, labels):
         for audio_shot in audio_shots:
             print("(+) Tagging on shot:", audio_shot)
             audio_shot_path = os.path.join(audio_path, audio_shot)
-            (waveform, _) = librosa.core.load(audio_shot_path, sr=32000, mono=True)
+            try:
+                (waveform, _) = librosa.core.load(audio_shot_path, sr=32000, mono=True)
+            except RuntimeError:
+                continue
             waveform = waveform[None, :]
             waveform = move_data_to_device(waveform, 'cuda')
 
