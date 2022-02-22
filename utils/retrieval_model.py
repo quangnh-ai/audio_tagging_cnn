@@ -1,4 +1,5 @@
 import h5py
+from matplotlib.image import thumbnail
 import numpy as np
 
 import argparse
@@ -26,6 +27,19 @@ class Retrieval:
 
         for i in range(len(self.features)):
             if query in self.features[i]:
-                results.append(self.ids[i])
-        
+                # results.append(self.ids[i])
+                video_id = self.ids[i].split('_')[0]
+                dataset = None
+                if int(video_id) <= 7475:
+                    dataset = 'V3C1'
+                else:
+                    dataset = 'V3C2'
+                keyframe_ids = self.ids[i]
+                thumbnail_path = dataset + '/' + video_id + '/' + keyframe_ids + '.png'
+                results.append({
+                    "dataset": dataset,
+                    "video_id": video_id,
+                    "frame_id": keyframe_ids,
+                    'thumbnail_path': thumbnail_path
+                })
         return results
