@@ -18,7 +18,7 @@ async def retrieval(req: Request):
     query = req["query"]
     return {"result": retrieval_model.retrieval(query)}
 
-@app.get("/text_query/{txt_query}", status_code=200)
+@app.get("/audio_tag/{txt_query}", status_code=200)
 async def text_query(txt_query: Optional[str]=None):
     return retrieval_model.retrieval(txt_query)
 
