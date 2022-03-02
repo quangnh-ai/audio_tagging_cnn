@@ -45,7 +45,7 @@ class Retrieval:
                 else:
                     dataset = 'V3C2'
                 shot_id = self.ids[i]
-                keyframe_id = self.get_keyframe_id()
+                keyframe_id = self.get_keyframe_id(shot_id)
                 thumbnail_path = dataset + '/' + video_id + '/' + shot_id + '/' + video_id + '_' + shot_id + '_' + keyframe_id + '.jpg'
                 results.append({
                     "dataset": dataset,
