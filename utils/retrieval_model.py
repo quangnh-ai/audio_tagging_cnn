@@ -26,7 +26,7 @@ class Retrieval:
         self.features = [feature.decode("utf-8") for feature in self.features]
     
     def get_keyframe_id(self, shot_id):
-        for keyframe_id, shot_idx in self.mapping_dict:
+        for keyframe_id, shot_idx in self.mapping_dict.items():
             if shot_id == shot_idx:
                 return keyframe_id
         return ''    
