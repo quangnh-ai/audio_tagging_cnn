@@ -24,6 +24,12 @@ class Retrieval:
         
         self.ids = [id.decode("utf-8") for id in self.ids]
         self.features = [feature.decode("utf-8") for feature in self.features]
+    
+    def get_keyframe_id(self, shot_id):
+        for keyframe_id, shot_idx in self.mapping_dict:
+            if shot_id == shot_idx:
+                return keyframe_id
+        return ''    
 
     def retrieval(self, query):
 
@@ -38,14 +44,14 @@ class Retrieval:
                     dataset = 'V3C1'
                 else:
                     dataset = 'V3C2'
-                keyframe_ids = self.ids[i]
-                # shot_id = self.mapping_dict.get(keyframe_ids)
-                thumbnail_path = dataset + '/' + video_id + '/' + keyframe_ids + '.png'
+                shot_id = self.ids[i]
+                keyframe_id = self.get_keyframe_id()
+                thumbnail_path = dataset + '/' + video_id + '/' + shot_id + '/' + video_id + '_' + shot_id + '_' + keyframe_id + '.jpg'
                 results.append({
                     "dataset": dataset,
                     "video_id": video_id,
-                    "shot_id": keyframe_ids,
-                    # "frame_id": keyframe_ids,
+                    "shot_id": shot_id,
+                    "frame_id": keyframe_id,
                     'thumbnail_path': thumbnail_path
                 })
         return results
