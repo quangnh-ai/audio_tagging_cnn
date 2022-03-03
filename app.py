@@ -1,3 +1,4 @@
+from turtle import st
 from fastapi import FastAPI
 from typing import Optional
 from pydantic import BaseModel
@@ -10,7 +11,7 @@ from utils.retrieval_model import get_arg
 app = FastAPI()
 
 class Request(BaseModel):
-    query: str
+    q: str
 
 @app.post("/retrieval")
 async def retrieval(req: Request):
@@ -18,8 +19,13 @@ async def retrieval(req: Request):
     query = req["query"]
     return {"result": retrieval_model.retrieval(query)}
 
-@app.get("/audio_tag/{txt_query}", status_code=200)
-async def text_query(txt_query: Optional[str]=None):
+@app.get("/audio_tag/{tag}", status_code=200)
+async def text_query(tag: str, q: str):
+    txt_query = q
+    if txt_query == "" or txt_query == None or txt_query == " ":
+        return {
+            "message": "query string is null"
+        }
     return retrieval_model.retrieval(txt_query)
 
 if __name__ == "__main__":
