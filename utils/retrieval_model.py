@@ -19,6 +19,9 @@ class Retrieval:
         content = open(args.mapping_kf2shot)
         self.mapping_dict = json.load(content)
 
+        self.mapping_keys = list(self.mapping_dict.keys())
+        self.mapping_values = list(self.mapping_dict.values())
+
         self.features = self.data.get('features')
         self.ids = self.data.get('shot_ids')
         
@@ -26,10 +29,9 @@ class Retrieval:
         self.features = [feature.decode("utf-8") for feature in self.features]
     
     def get_keyframe_id(self, shot_id):
-        for keyframe_id, shot_idx in self.mapping_dict.items():
-            if shot_id == shot_idx:
-                return keyframe_id
-        return ''    
+        idx = self.mapping_values.index(shot_id)
+        result = self.mapping_keys[idx]
+        return result    
 
     def retrieval(self, query):
 
