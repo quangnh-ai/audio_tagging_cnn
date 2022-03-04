@@ -7,7 +7,7 @@ import argparse
 def get_arg():
     parser = argparse.ArgumentParser()
     parser.add_argument('--features_path', type=str)
-    parser.add_argument('--mapping_kf2shot', type=str)
+    # parser.add_argument('--mapping_kf2shot', type=str)
 
     args = parser.parse_args()
     return args
@@ -19,8 +19,8 @@ class Retrieval:
         content = open(args.mapping_kf2shot)
         self.mapping_dict = json.load(content)
 
-        self.mapping_keys = list(self.mapping_dict.keys())
-        self.mapping_values = list(self.mapping_dict.values())
+        # self.mapping_keys = list(self.mapping_dict.keys())
+        # self.mapping_values = list(self.mapping_dict.values())
 
         self.features = self.data.get('features')
         self.shot_ids = self.data.get('shot_ids')
