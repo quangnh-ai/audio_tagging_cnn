@@ -26,7 +26,8 @@ class Retrieval:
         self.shot_ids = self.data.get('shot_ids')
         self.keyframe_ids = self.data.get('keyframe_ids')
         
-        self.ids = [id.decode("utf-8") for id in self.ids]
+        self.shot_ids = [id.decode("utf-8") for id in self.shot_ids]
+        self.keyframe_ids = [id.decode("utf-8") for id in self.keyframe_ids]
         self.features = [feature.decode("utf-8") for feature in self.features]
     
     def get_keyframe_id(self, shot_id):
