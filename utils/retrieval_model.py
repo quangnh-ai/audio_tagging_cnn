@@ -16,8 +16,8 @@ class Retrieval:
     def __init__(self, args):
         self.data = h5py.File(args.features_path, 'r')
         
-        content = open(args.mapping_kf2shot)
-        self.mapping_dict = json.load(content)
+        # content = open(args.mapping_kf2shot)
+        # self.mapping_dict = json.load(content)
 
         # self.mapping_keys = list(self.mapping_dict.keys())
         # self.mapping_values = list(self.mapping_dict.values())
